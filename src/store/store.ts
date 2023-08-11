@@ -8,7 +8,9 @@ import { API_URL } from "../http";
 export default class Store {
   user = {} as IUser;
   isAuth = false;
-  isLoading = true;
+  isLoading = false;
+  isLoginForm = true;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -20,8 +22,12 @@ export default class Store {
   setUser(user: IUser) {
     this.user = user;
   }
+
   setLoading(bool: boolean) {
     this.isLoading = bool;
+  }
+  setLoginForm(bool: boolean) {
+    this.isLoginForm = bool;
   }
 
   async login(email: string, password: string) {
@@ -65,9 +71,13 @@ export default class Store {
       const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
         withCredentials: true,
       });
-      localStorage.setItem("token", response.data.accessToken);
-      this.setAuth(true);
-      this.setUser(response.data.user);
+      if (response.data.user.status === "blocked") {
+        this.setAuth(false);
+      } else {
+        localStorage.setItem("token", response.data.accessToken);
+        this.setAuth(true);
+        this.setUser(response.data.user);
+      }
     } catch (e) {
       console.log(e.response?.data?.message);
     } finally {
