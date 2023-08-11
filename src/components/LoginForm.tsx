@@ -1,24 +1,19 @@
 import { FC, useContext, useState } from "react";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
-interface Iinvalid {
-  status: boolean;
-  message?: string;
-}
+import validateEmail from "../helper/helper";
+import { IisInvalid } from "../models/Iinvalid";
 
-const EMAIL_REGEXP =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-function validateEmail(value: string) {
-  return EMAIL_REGEXP.test(value);
-}
 const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { store } = useContext(Context);
-  const [isInvalidEmail, setIsInvalidEmail] = useState<Iinvalid>({
+  const [isInvalidEmail, setIsInvalidEmail] = useState<IisInvalid>({
     status: false,
   });
-  const [isInvalidPsw, setIsInvalidPsw] = useState<Iinvalid>({ status: false });
+  const [isInvalidPsw, setIsInvalidPsw] = useState<IisInvalid>({
+    status: false,
+  });
 
   return (
     <div className="form-login w-100 p-15 m-auto text-center">

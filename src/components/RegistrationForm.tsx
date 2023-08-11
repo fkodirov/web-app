@@ -1,22 +1,16 @@
 import { FC, useContext, useState } from "react";
 import { Context } from "../main";
 import { observer } from "mobx-react-lite";
-interface IisInvalidEmail {
-  status: boolean;
-  message?: string;
-}
-const EMAIL_REGEXP =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-function validateEmail(value: string) {
-  return EMAIL_REGEXP.test(value);
-}
+import validateEmail from "../helper/helper";
+import { IisInvalid } from "../models/Iinvalid";
+
 const RegistrationForm: FC = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const { store } = useContext(Context);
   const [isInvalidName, setIsInvalidName] = useState<boolean>(false);
-  const [isInvalidEmail, setIsInvalidEmail] = useState<IisInvalidEmail>({
+  const [isInvalidEmail, setIsInvalidEmail] = useState<IisInvalid>({
     status: false,
   });
   const [isInvalidPsw, setIsInvalidPsw] = useState<boolean>(false);
