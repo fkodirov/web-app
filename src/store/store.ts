@@ -8,7 +8,7 @@ import { API_URL } from "../http";
 export default class Store {
   user = {} as IUser;
   isAuth = false;
-  isLoading = false;
+  isLoading = true;
   isLoginForm = true;
 
   constructor() {

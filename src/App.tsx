@@ -2,11 +2,14 @@ import { FC, useContext, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import { Context } from "./main";
 import { observer } from "mobx-react-lite";
+
 import RegistrationForm from "./components/RegistrationForm";
 import UsersTable from "./components/UsersTable";
+import { BoxArrowInRight } from "react-bootstrap-icons";
 
 const App: FC = () => {
   const { store } = useContext(Context);
+  // const [isLoginForm, setIsLoginForm] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -23,15 +26,33 @@ const App: FC = () => {
         ></div>
       </div>
     );
-  } else if (!store.isAuth) {
+  }
+  if (!store.isAuth) {
     return (
-      <div>
-        <LoginForm />
-      </div>
+      <div>{store.isLoginForm ? <LoginForm /> : <RegistrationForm />}</div>
     );
   }
 
-  return <UsersTable />;
+  return (
+    <div className="container-fluid vh-100">
+      <div className="row text-center my-3">
+        <div className="col">
+          <span className="fw-bold">
+            {store.isAuth ? store.user.email : "Sign in"}
+          </span>
+        </div>
+        <div className="col">
+          <button className="btn btn-primary" onClick={() => store.logout()}>
+            <BoxArrowInRight title="Log out" size={20} />
+            {" Выйти "}
+          </button>
+        </div>
+      </div>
+      <h1></h1>
+
+      <UsersTable />
+    </div>
+  );
 };
 
 export default observer(App);
