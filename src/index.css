@@ -1,3 +1,16 @@
 html,body{
   height: 100%;
 }
+.form-login{
+  max-width: 350px;
+  padding-top: 200px;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
+.users-table{
+  max-width: 1000px;
+}
+.text-left{
+  text-align: left;
+}
