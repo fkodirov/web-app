@@ -14,7 +14,16 @@ const App: FC = () => {
     }
   }, []);
 
-  if (!store.isAuth) {
+  if (store.isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div
+          className="spinner-border text-primary w-10 h-10"
+          role="status"
+        ></div>
+      </div>
+    );
+  } else if (!store.isAuth) {
     return (
       <div>
         <LoginForm />
