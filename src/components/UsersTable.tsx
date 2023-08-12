@@ -66,6 +66,7 @@ const UsersTable: React.FC = () => {
       if (await checkBlocked()) store.logout();
       else {
         await UserService.deleteUser(id);
+        setSelectedUsers(selectedUsers.filter((e) => e != id));
         if (id === store.user.id) store.logout();
         else getUsers();
       }
