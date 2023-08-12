@@ -3,6 +3,7 @@ import { Context } from "../main";
 import { observer } from "mobx-react-lite";
 import validateEmail from "../helper/helper";
 import { IisInvalid } from "../models/Iinvalid";
+import axios from "axios";
 
 const LoginForm: FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -96,15 +97,21 @@ const LoginForm: FC = () => {
             try {
               await store.login(email, password);
             } catch (e) {
-              if (e.response.data.message.includes("User not found"))
-                setIsInvalidEmail({ status: true, message: "User not found" });
-              else if (e.response.data.message.includes("User blocked!"))
-                setIsInvalidEmail({ status: true, message: "User blocked!" });
-              if (e.response.data.message.includes("Incorrect Password"))
-                setIsInvalidPsw({
-                  status: true,
-                  message: "Incorrect Password",
-                });
+              if (axios.isAxiosError(e)) {
+                const responseMessage = e.response?.data?.message;
+                if (responseMessage.includes("User not found"))
+                  setIsInvalidEmail({
+                    status: true,
+                    message: "User not found",
+                  });
+                else if (responseMessage.includes("User blocked!"))
+                  setIsInvalidEmail({ status: true, message: "User blocked!" });
+                if (responseMessage.includes("Incorrect Password"))
+                  setIsInvalidPsw({
+                    status: true,
+                    message: "Incorrect Password",
+                  });
+              }
             }
           }}
         >

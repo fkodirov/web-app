@@ -9,7 +9,6 @@ import { BoxArrowInRight } from "react-bootstrap-icons";
 
 const App: FC = () => {
   const { store } = useContext(Context);
-  // const [isLoginForm, setIsLoginForm] = useState(true);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -27,6 +26,7 @@ const App: FC = () => {
       </div>
     );
   }
+
   if (!store.isAuth) {
     return (
       <div>{store.isLoginForm ? <LoginForm /> : <RegistrationForm />}</div>

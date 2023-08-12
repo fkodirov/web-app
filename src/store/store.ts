@@ -37,7 +37,7 @@ export default class Store {
       this.setAuth(true);
       this.setUser(response.data.user);
     } catch (e) {
-      console.log(e.response?.data?.message);
+      console.log(e);
       throw e;
     }
   }
@@ -49,7 +49,7 @@ export default class Store {
       this.setAuth(true);
       this.setUser(response.data.user);
     } catch (e) {
-      console.log(e.response?.data?.message);
+      console.log(e);
       throw e;
     }
   }
@@ -61,7 +61,7 @@ export default class Store {
       this.setAuth(false);
       this.setUser({} as IUser);
     } catch (e) {
-      console.log(e.response?.data?.message);
+      console.log(e);
     }
   }
 
@@ -79,7 +79,7 @@ export default class Store {
         this.setUser(response.data.user);
       }
     } catch (e) {
-      console.log(e.response?.data?.message);
+      console.log(e);
     } finally {
       this.setLoading(false);
     }

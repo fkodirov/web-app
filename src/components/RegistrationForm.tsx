@@ -3,6 +3,7 @@ import { Context } from "../main";
 import { observer } from "mobx-react-lite";
 import validateEmail from "../helper/helper";
 import { IisInvalid } from "../models/Iinvalid";
+import axios from "axios";
 
 const RegistrationForm: FC = () => {
   const [name, setName] = useState<string>("");
@@ -116,21 +117,24 @@ const RegistrationForm: FC = () => {
             try {
               await store.registration(name, email, password);
             } catch (e) {
-              if (e.response.data.message.includes("The user")) {
-                setIsInvalidName(true);
+              if (axios.isAxiosError(e)) {
+                const responseMessage = e.response?.data?.message;
+                if (responseMessage.includes("The user")) {
+                  setIsInvalidName(true);
+                }
+                if (responseMessage.includes("the same email"))
+                  setIsInvalidEmail({
+                    status: true,
+                    message: "A user with the same email already exists",
+                  });
+                else if (responseMessage.includes("email address"))
+                  setIsInvalidEmail({
+                    status: true,
+                    message: "Invalid email address",
+                  });
+                if (responseMessage.includes("The password"))
+                  setIsInvalidPsw(true);
               }
-              if (e.response.data.message.includes("the same email"))
-                setIsInvalidEmail({
-                  status: true,
-                  message: "A user with the same email already exists",
-                });
-              else if (e.response.data.message.includes("email address"))
-                setIsInvalidEmail({
-                  status: true,
-                  message: "Invalid email address",
-                });
-              if (e.response.data.message.includes("The password"))
-                setIsInvalidPsw(true);
             }
           }}
         >
